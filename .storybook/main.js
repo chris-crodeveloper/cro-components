@@ -9,7 +9,8 @@ const config = {
     "@storybook/addon-essentials",
     "@chromatic-com/storybook",
     "@storybook/addon-styling-webpack",
-    "@storybook/addon-storysource"
+    "@storybook/addon-storysource",
+    "@storybook/addon-interactions"
   ],
   framework: {
     name: "@storybook/web-components-webpack5",
