@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "test": "storybook dev -p 6006 & wait-on http://localhost:6006 && npx playwright install && test-storybook",
+    "test": "storybook dev -p 6006 & wait-on http://localhost:6006 && npx playwright install && npx playwright install-deps && test-storybook",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "storybook build && rollup -c && npm run generate-exports",
