@@ -1,4 +1,0 @@
-include:
-  - project: virginmediaO2/digital/digital-msa/images/pipeline-templates
-    ref: stable
-    file: node-plugin.gitlab-ci.yml
