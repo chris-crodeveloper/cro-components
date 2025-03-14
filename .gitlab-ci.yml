@@ -1,3 +1,9 @@
+source-check:
+  stage: source-check
+  needs: ['install']
+  script:
+    - npm run source:check
+
 include:
   - project: virginmediaO2/digital/digital-msa/images/pipeline-templates
     ref: stable

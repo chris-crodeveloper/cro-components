@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "test": "storybook dev -p 6006 & wait-on http://localhost:6006 && npx playwright install && npx playwright install-deps && test-storybook",
+    "test": "storybook dev -p 6006 & wait-on http://localhost:6006 && test-storybook",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "storybook build && rollup -c && npm run generate-exports",
@@ -33,6 +33,7 @@
     "@storybook/web-components": "^8.4.7",
     "@storybook/web-components-webpack5": "^8.4.5",
     "lit": "^3.2.1",
+    "playwright": "^1.51.0",
     "rollup": "^2.79.2",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^7.0.2",
@@ -40,8 +41,7 @@
     "wait-on": "^8.0.3"
   },
   "dependencies": {
-    "@rollup/plugin-node-resolve": "^16.0.0",
-    "playwright": "^1.51.0"
+    "@rollup/plugin-node-resolve": "^16.0.0"
   },
   "exports": {
     "./Button": "./dist/Button.js",
