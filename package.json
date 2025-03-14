@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "test": "storybook dev -p 6006 & wait-on http://localhost:6006 && test-storybook",
+    "install-playwright": "npx playwright install",
+    "wait-for-playwright": "wait-on /root/.cache/ms-playwright && echo 'Playwright is installed!'",
+    "test": "storybook dev -p 6006 & wait-on http://localhost:6006 && npm run install-playwright && test-storybook",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "storybook build && rollup -c && npm run generate-exports",

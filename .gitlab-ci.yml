@@ -1,3 +1,18 @@
+stages:
+  - install
+  - source-check
+  - test
+  - publish
+
+install:
+  stage: install
+  before_script:
+    - npm config set //gitlab.com/api/v4/packages/npm/:_authToken=${NPM_READ_TOKEN}
+    - npm config set @virginmediao2:registry https://gitlab.com/api/v4/packages/npm/
+    - npm config set registry https://europe-west2-npm.pkg.dev/prj-vo-sec-n-demo-ht/ht-npm
+  script:
+    - npm ci --cache .npm --prefer-offline
+
 source-check:
   stage: source-check
   needs: ['install']
