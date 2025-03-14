@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "test": "test-storybook",
+    "test": "storybook dev -p 6006 && test-storybook",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "build": "rollup -c && npm run generate-exports",
+    "build": "storybook build && rollup -c && npm run generate-exports",
     "generate-exports": "node generate-exports.js"
   },
   "files": [

@@ -1,6 +1,6 @@
-const path = require('path');
+import path from 'path'
 
-module.exports = {
+ export default {
   stories: ['../src/**/*.stories.@(js|ts)'],
   addons: [
     '@storybook/addon-essentials', // Includes controls, docs, actions, etc.
