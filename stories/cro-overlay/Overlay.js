@@ -3,29 +3,29 @@
 
 
 class Overlay extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
-            <div id='${this.getAttribute('overlayId') || ''}' class='cro-fullscreen-overlay'>
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.innerHTML = `
+            <div id='${this.getAttribute("overlayId") || ""}' class='cro-fullscreen-overlay'>
             <div class='cro-fullscreen-overlay--container'>
                 <span class='cro-fullscreen-overlay--overlay-close'>
                     <img alt="times" src="//cdn.optimizely.com/img/22744560884/bfe392b17044466786e01eddb7f09850.png" />
                 </span>
                 <div class='cro-fullscreen-overlay--header'>
-                    ${this.getAttribute('header') || ''}
+                    ${this.getAttribute("header") || ""}
                 </div>
                 <div class='cro-fullscreen-overlay--body'>
-                    ${this.getAttribute('body') || ''}
+                    ${this.getAttribute("body") || ""}
                 </div>
                 <div class='cro-fullscreen-overlay--footer'>
-                    ${this.getAttribute('footer') || ''}
+                    ${this.getAttribute("footer") || ""}
                 </div>
             </div>
         </div>
-        `
-        const style = document.createElement('style');
-        style.textContent = `
+        `;
+    const style = document.createElement("style");
+    style.textContent = `
                 .cro-fullscreen-overlay--active {
                     overflow: hidden;
                 }
@@ -82,58 +82,58 @@ class Overlay extends HTMLElement {
                 }
         `;
 
-        // Append children to shadow DOM
-        this.shadowRoot.append(style);
+    // Append children to shadow DOM
+    this.shadowRoot.append(style);
 
 
-        // Add event listener to the close button
-        const closeButton = this.shadowRoot.querySelector('.cro-fullscreen-overlay--overlay-close');
-        closeButton.addEventListener('click', this.handleCloseButtonClick.bind(this));
-    }
+    // Add event listener to the close button
+    const closeButton = this.shadowRoot.querySelector(".cro-fullscreen-overlay--overlay-close");
+    closeButton.addEventListener("click", this.handleCloseButtonClick.bind(this));
+  }
 
-    static get observedAttributes() {
-        return ['overlayId', 'header', 'body', 'footer'];
-    }
+  static get observedAttributes() {
+    return ["overlayId", "header", "body", "footer"];
+  }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-        const header = this.shadowRoot.querySelector('.cro-fullscreen-overlay--header');
-        const body = this.shadowRoot.querySelector('.cro-fullscreen-overlay--body');
-        const footer = this.shadowRoot.querySelector('.cro-fullscreen-overlay--footer');
+  attributeChangedCallback(name, oldValue, newValue) {
+    const header = this.shadowRoot.querySelector(".cro-fullscreen-overlay--header");
+    const body = this.shadowRoot.querySelector(".cro-fullscreen-overlay--body");
+    const footer = this.shadowRoot.querySelector(".cro-fullscreen-overlay--footer");
        
-        if (name === 'overlayId' && button) {
-            button.textContent = newValue;
-        }
+    if (name === "overlayId" && button) {
+      button.textContent = newValue;
+    }
       
-        if (name === 'header' && header) {
-            header.innerHTML = newValue;
-        }
-
-        if (name === 'body' && body) {
-            body.innerHTML = newValue;
-         }
-
-         if (name === 'footer' && footer) {
-            footer.innerHTML = newValue;
-         }
-        
+    if (name === "header" && header) {
+      header.innerHTML = newValue;
     }
 
-    handleCloseButtonClick() {
-        const htmlTag = document.querySelector(`html`);
-        
-        const overlay = this.shadowRoot.querySelector('.cro-fullscreen-overlay');
-        overlay.className = overlay.className.includes('cro-fullscreen-overlay--active') ? '' : 'cro-fullscreen-overlay--active';
-        overlay.className = overlay.className.includes('cro-fullscreen-overlay--hide') ? '' : 'cro-fullscreen-overlay--hide';
-
-        // Handle the click event here
-        console.log('Close button clicked!');
-        // You can perform any desired action, such as removing the overlay.
+    if (name === "body" && body) {
+      body.innerHTML = newValue;
     }
+
+    if (name === "footer" && footer) {
+      footer.innerHTML = newValue;
+    }
+        
+  }
+
+  handleCloseButtonClick() {
+    const htmlTag = document.querySelector("html");
+        
+    const overlay = this.shadowRoot.querySelector(".cro-fullscreen-overlay");
+    overlay.className = overlay.className.includes("cro-fullscreen-overlay--active") ? "" : "cro-fullscreen-overlay--active";
+    overlay.className = overlay.className.includes("cro-fullscreen-overlay--hide") ? "" : "cro-fullscreen-overlay--hide";
+
+    // Handle the click event here
+    console.log("Close button clicked!");
+    // You can perform any desired action, such as removing the overlay.
+  }
 }
 
 
 // Define component if not already defined
-customElements.define('cro-overlay', Overlay);
+customElements.define("cro-overlay", Overlay);
 
 
 

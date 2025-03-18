@@ -1,5 +1,5 @@
 /** @type { import('@storybook/web-components').Preview } */
-import './preview.css';
+import "./preview.css";
 const preview = {
   parameters: {
     controls: {

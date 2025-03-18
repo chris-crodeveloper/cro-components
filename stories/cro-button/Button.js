@@ -1,18 +1,18 @@
 //import './button.css';
 
 class Button extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
-            <button class='${this.getAttribute('type') || ''}'>
-                <span>${this.getAttribute('label') || 'Click Me'}</span>
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.innerHTML = `
+            <button class='${this.getAttribute("type") || ""}'>
+                <span>${this.getAttribute("label") || "Click Me"}</span>
             </button>
         `;
 
 
-        const style = document.createElement('style');
-        style.textContent = `
+    const style = document.createElement("style");
+    style.textContent = `
             button {
                 border: 2px solid #5F2878;
                 background-color: #5F2878;
@@ -36,42 +36,42 @@ class Button extends HTMLElement {
         `;
 
 
-        // Append children to shadow DOM
-        this.shadowRoot.append(style);
+    // Append children to shadow DOM
+    this.shadowRoot.append(style);
 
-        // Add click handler
-        this.shadowRoot.querySelector('button').addEventListener('click', () => this.handleClick());
+    // Add click handler
+    this.shadowRoot.querySelector("button").addEventListener("click", () => this.handleClick());
 
         
-    }
+  }
 
-    handleClick() {
-        console.log('Button clicked!');
-        this.dispatchEvent(new Event('button-click', { bubbles: true, composed: true }));
-    }
+  handleClick() {
+    console.log("Button clicked!");
+    this.dispatchEvent(new Event("button-click", { bubbles: true, composed: true }));
+  }
 
-    static get observedAttributes() {
-        return ['label', 'disabled', 'type'];
-    }
+  static get observedAttributes() {
+    return ["label", "disabled", "type"];
+  }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-        const button = this.shadowRoot.querySelector('button');
-        if (name === 'label' && button) {
-            button.textContent = newValue;
-        }
+  attributeChangedCallback(name, oldValue, newValue) {
+    const button = this.shadowRoot.querySelector("button");
+    if (name === "label" && button) {
+      button.textContent = newValue;
+    }
       
-        if (name === 'type') {
-           button.classList = newValue;
-        }
-        
+    if (name === "type") {
+      button.classList = newValue;
     }
+        
+  }
 
 
 
 }
 
 // Define component if not already defined
-customElements.define('cro-button', Button);
+customElements.define("cro-button", Button);
 
 
 
