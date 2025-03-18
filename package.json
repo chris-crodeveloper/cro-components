@@ -5,7 +5,7 @@
   "scripts": {
     "install-deps": "npx playwright install-deps",
     "install-playwright": "npx playwright install",
-    "test": "npm run install-deps && npm run install-playwright && storybook dev -p 6006 & wait-on http://localhost:6006 && test-storybook",
+    "test": "storybook dev -p 6006 & test-storybook",
     "prettier:check": "prettier . --check",
     "prettier:fix": "npm run prettier:check -- --write",
     "lint:check": "eslint . --max-warnings=0",
