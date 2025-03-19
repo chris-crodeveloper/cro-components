@@ -1,14 +1,15 @@
-import { Meta } from "@storybook/blocks";
+import { Meta } from '@storybook/blocks'
 
-import ImportComponent from "./assets/import-component.png";
-import NewComponent from "./assets/new-component.png";
-import Build from "./assets/build.png";
+import ImportComponent from './assets/import-component.png'
+import NewComponent from './assets/new-component.png'
+import Build from './assets/build.png'
 
-export const RightArrow = () => <svg 
-    viewBox="0 0 14 14" 
-    width="8px" 
-    height="14px" 
-    style={{ 
+export const RightArrow = () => (
+  <svg
+    viewBox="0 0 14 14"
+    width="8px"
+    height="14px"
+    style={{
       marginLeft: '4px',
       display: 'inline-block',
       shapeRendering: 'inherit',
@@ -16,16 +17,17 @@ export const RightArrow = () => <svg
       fill: 'currentColor',
       'path fill': 'currentColor'
     }}
->
-  <path d="m11.1 7.35-5.5 5.5a.5.5 0 0 1-.7-.7L10.04 7 4.9 1.85a.5.5 0 1 1 .7-.7l5.5 5.5c.2.2.2.5 0 .7Z" />
-</svg>
+  >
+    <path d="m11.1 7.35-5.5 5.5a.5.5 0 0 1-.7-.7L10.04 7 4.9 1.85a.5.5 0 1 1 .7-.7l5.5 5.5c.2.2.2.5 0 .7Z" />
+  </svg>
+)
 
 <Meta title="CRO Components" />
 
 <div className="sb-container">
-  <div className='sb-section-title'>
-    # CRO Components
-    A Web Component library designed to be used for CRO. Exporting individual web components which can be included in CRO tests.  
+  <div className="sb-section-title">
+    # CRO Components A Web Component library designed to be used for CRO.
+    Exporting individual web components which can be included in CRO tests.
   </div>
   <div className="sb-section">
     <div className="sb-section-item">
@@ -34,30 +36,36 @@ export const RightArrow = () => <svg
         alt="A wall of logos representing different styling technologies"
       />
       <h4 className="sb-section-item-heading">Add a new component</h4>
-      <p className="sb-section-item-paragraph">Create a new component folder in the ./stories folder. Copy an existing component.</p>
-  
+      <p className="sb-section-item-paragraph">
+        Create a new component folder in the ./stories folder. Copy an existing
+        component.
+      </p>
     </div>
-     <div className="sb-section-item">
+    <div className="sb-section-item">
       <img
         src={Build}
         alt="A wall of logos representing different styling technologies"
       />
       <h4 className="sb-section-item-heading">Build project</h4>
-      <p className="sb-section-item-paragraph">After creating a component, build the project with `npm run build`</p>
-  
+      <p className="sb-section-item-paragraph">
+        After creating a component, build the project with `npm run build`
+      </p>
     </div>
     <div className="sb-section-item">
       <img
         src={ImportComponent}
         alt="A wall of logos representing different styling technologies"
       />
-      <h4 className="sb-section-item-heading">Import components into your project</h4>
-      <p className="sb-section-item-paragraph">Within your CRO test run an import and then use the code in the storybook component. </p>
-   
+      <h4 className="sb-section-item-heading">
+        Import components into your project
+      </h4>
+      <p className="sb-section-item-paragraph">
+        Within your CRO test run an import and then use the code in the
+        storybook component.{' '}
+      </p>
     </div>
   </div>
 </div>
-
 
 <style>
   {`

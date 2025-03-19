@@ -3,15 +3,16 @@ export default [
   {
     languageOptions: {
       ecmaVersion: 12,
-      sourceType: "module",
+      sourceType: "module"
     },
     rules: {
       // ESLint's recommended rules directly defined here
       "no-console": "warn", // Example rule from eslint:recommended
       "no-unused-vars": "warn",
-      "indent": ["error", 2],
-      "quotes": ["error", "double"],
-      "semi": ["error", "always"],
+      indent: ["error", 2],
+      quotes: ["error", "double"],
+      semi: ["error", "always"]
     },
-  },
+    ignores: ["storybook-static/*", "dist/*"],
+  }
 ];

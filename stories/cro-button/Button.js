@@ -10,7 +10,6 @@ class Button extends HTMLElement {
             </button>
         `;
 
-
     const style = document.createElement("style");
     style.textContent = `
             button {
@@ -35,19 +34,19 @@ class Button extends HTMLElement {
             }
         `;
 
-
     // Append children to shadow DOM
     this.shadowRoot.append(style);
 
     // Add click handler
-    this.shadowRoot.querySelector("button").addEventListener("click", () => this.handleClick());
-
-        
+    this.shadowRoot
+      .querySelector("button")
+      .addEventListener("click", () => this.handleClick());
   }
 
   handleClick() {
-    console.log("Button clicked!");
-    this.dispatchEvent(new Event("button-click", { bubbles: true, composed: true }));
+    this.dispatchEvent(
+      new Event("button-click", { bubbles: true, composed: true })
+    );
   }
 
   static get observedAttributes() {
@@ -59,21 +58,12 @@ class Button extends HTMLElement {
     if (name === "label" && button) {
       button.textContent = newValue;
     }
-      
+
     if (name === "type") {
       button.classList = newValue;
     }
-        
   }
-
-
-
 }
 
 // Define component if not already defined
 customElements.define("cro-button", Button);
-
-
-
-
-

@@ -1,5 +1,3 @@
-
-
 import "./Button";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -9,8 +7,8 @@ export default {
   argTypes: {
     label: { control: "text" },
     disabled: { control: "boolean" },
-    type: { control: "text"}
-  },
+    type: { control: "text" }
+  }
 };
 
 const Template = ({ label, disabled, type }) => {
@@ -26,7 +24,6 @@ Default.args = {
   label: "Click Me",
   disabled: false,
   type: "primary"
-
 };
 
 export const Secondary = Template.bind({});
@@ -35,7 +32,3 @@ Secondary.args = {
   disabled: false,
   type: "secondary"
 };
-
-
-
-

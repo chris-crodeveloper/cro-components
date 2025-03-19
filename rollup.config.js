@@ -9,7 +9,7 @@ const componentsDir = path.resolve("stories"); // Path to your components folder
 
 // Recursive function to get all files in a directory and its subdirectories
 function getFiles(dir) {
-  return fs.readdirSync(dir).flatMap((file) => {
+  return fs.readdirSync(dir).flatMap(file => {
     const fullPath = path.join(dir, file);
     return fs.statSync(fullPath).isDirectory() ? getFiles(fullPath) : fullPath;
   });
@@ -17,9 +17,10 @@ function getFiles(dir) {
 
 // Dynamically generate the input object, excluding `*.stories.js` files
 const components = getFiles(componentsDir)
-  .filter((file) =>
-    (file.endsWith(".js") || file.endsWith(".ts")) && // Only .js and .ts files
-    !file.endsWith(".stories.js") // Exclude .stories.js files
+  .filter(
+    file =>
+      (file.endsWith(".js") || file.endsWith(".ts")) && // Only .js and .ts files
+      !file.endsWith(".stories.js") // Exclude .stories.js files
   )
   .reduce((entries, file) => {
     const name = path.basename(file, path.extname(file)); // Use only the file name without extension
@@ -33,11 +34,11 @@ export default defineConfig({
   output: {
     dir: "dist", // Output directory
     format: "es", // ES module format
-    entryFileNames: "[name].js", // Output all files to the root of `dist`
+    entryFileNames: "[name].js" // Output all files to the root of `dist`
   },
   plugins: [
     resolve(), // Resolve node_modules dependencies
     commonjs(), // Convert CommonJS to ES Modules
-    terser(), // Minify the output
-  ],
+    terser() // Minify the output
+  ]
 });

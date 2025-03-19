@@ -1,5 +1,3 @@
-
-
 import "./Header";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -8,10 +6,10 @@ export default {
   tags: ["autodocs"],
   argTypes: {
     label: { control: "text" }
-  },
+  }
 };
 
-const Template = ({ label, disabled, type }) => {
+const Template = ({ label }) => {
   const croHeader = document.createElement("cro-header");
   if (label) croHeader.setAttribute("label", label);
   return croHeader;
@@ -20,14 +18,9 @@ const Template = ({ label, disabled, type }) => {
 export const Default = Template.bind({});
 Default.args = {
   label: "Click Me"
-
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
   label: "Click Me Please"
 };
-
-
-
-

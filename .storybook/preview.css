@@ -1,34 +1,44 @@
 @font-face {
-    font-family: VMCircularChatPTT;
-    src: url(./public/fonts/VMCircularChatTT-Book.woff2) format("woff2"),url(./public/fonts/VMCircularChatTT-Book.woff);
-    font-display: swap
+  font-family: VMCircularChatPTT;
+  src:
+    url(./public/fonts/VMCircularChatTT-Book.woff2) format('woff2'),
+    url(./public/fonts/VMCircularChatTT-Book.woff);
+  font-display: swap;
 }
 
 @font-face {
-    font-family: VMCircularWhisperPTT;
-    src: url(./public/fonts/VMCircularWhisperTT-Light.woff2) format("woff2"),url(./public/fonts/VMCircularWhisperTT-Light.woff);
-    font-weight: 300;
-    font-display: swap
+  font-family: VMCircularWhisperPTT;
+  src:
+    url(./public/fonts/VMCircularWhisperTT-Light.woff2) format('woff2'),
+    url(./public/fonts/VMCircularWhisperTT-Light.woff);
+  font-weight: 300;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: VMCircularWhisperPTT-Italic;
-    src: url(./public/fonts/VMCircularWhisperTT-LightItalic.woff2) format("woff2"),url(./public/fonts/VMCircularWhisperTT-LightItalic.ttf);
-    font-weight: 300;
-    font-style: italic!important;
-    font-display: swap
+  font-family: VMCircularWhisperPTT-Italic;
+  src:
+    url(./public/fonts/VMCircularWhisperTT-LightItalic.woff2) format('woff2'),
+    url(./public/fonts/VMCircularWhisperTT-LightItalic.ttf);
+  font-weight: 300;
+  font-style: italic !important;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: VMCircularShoutPTT;
-    src: url(./public/fonts/VMCircularShoutTT-Bold.woff2) format("woff2"),url(./public/fonts/VMCircularShoutTT-Bold.ttf);
-    font-weight: 300;
-    font-display: swap
+  font-family: VMCircularShoutPTT;
+  src:
+    url(./public/fonts/VMCircularShoutTT-Bold.woff2) format('woff2'),
+    url(./public/fonts/VMCircularShoutTT-Bold.ttf);
+  font-weight: 300;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: VMCircularYellPTT;
-    src: url(./public/fonts/VMCircularYellTT-Black.woff2) format("woff2"),url(./public/fonts/VMCircularYellTT-Black.ttf);
-    font-weight: 300;
-    font-display: swap
+  font-family: VMCircularYellPTT;
+  src:
+    url(./public/fonts/VMCircularYellTT-Black.woff2) format('woff2'),
+    url(./public/fonts/VMCircularYellTT-Black.ttf);
+  font-weight: 300;
+  font-display: swap;
 }

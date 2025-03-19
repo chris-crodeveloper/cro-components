@@ -2,7 +2,7 @@
 const config = {
   stories: [
     "../stories/**/*.mdx",
-    "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
   addons: [
     "@storybook/addon-webpack5-compiler-swc",
@@ -14,7 +14,7 @@ const config = {
   ],
   framework: {
     name: "@storybook/web-components-webpack5",
-    options: {},
-  },
+    options: {}
+  }
 };
 export default config;

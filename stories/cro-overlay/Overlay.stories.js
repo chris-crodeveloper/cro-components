@@ -1,5 +1,3 @@
-
-
 import "./Overlay";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -9,17 +7,17 @@ export default {
   argTypes: {
     overlayId: { control: "text" },
     header: { control: "text" },
-    body: { control: "text"},
-    footer: { control: "text"}
+    body: { control: "text" },
+    footer: { control: "text" }
   },
   decorators: [
-    (Story) => {
+    Story => {
       const container = document.createElement("div");
       container.style.height = "500px"; // Force height
       container.appendChild(Story());
       return container;
-    },
-  ],
+    }
+  ]
 };
 
 const Template = ({ overlayId, header, body, footer }) => {
@@ -31,16 +29,10 @@ const Template = ({ overlayId, header, body, footer }) => {
   return croButton;
 };
 
-
 export const Default = Template.bind({});
 Default.args = {
-  overlayId: "Eli", 
-  header: "ELI LOVES GERKINS", 
-  body: "gerrrrrrkings", 
+  overlayId: "Eli",
+  header: "ELI LOVES GERKINS",
+  body: "gerrrrrrkings",
   footer: "footer"
 };
-
-
-
-
-
