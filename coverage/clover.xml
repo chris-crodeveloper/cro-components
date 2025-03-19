@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1742383507979" clover="3.2.0">
-  <project timestamp="1742383507979" name="All files">
+<coverage generated="1742384364901" clover="3.2.0">
+  <project timestamp="1742384364901" name="All files">
     <metrics statements="240" coveredstatements="238" conditionals="23" coveredconditionals="21" methods="11" coveredmethods="11" elements="274" coveredelements="270" complexity="0" loc="240" ncloc="240" packages="3" files="3" classes="3"/>
     <package name="cro-button">
       <metrics statements="69" coveredstatements="67" conditionals="8" coveredconditionals="6" methods="4" coveredmethods="4"/>
