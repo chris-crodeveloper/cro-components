@@ -1,7 +1,7 @@
-import { Overlay } from "./Overlay"; // Import the overlay component
+import "./Overlay"; // Import the overlay component
 
 // Set up a mock for the close button image URL, or use a real URL if desired
-const mockCloseImgUrl = "//cdn.optimizely.com/img/22744560884/bfe392b17044466786e01eddb7f09850.png";
+//const mockCloseImgUrl = "//cdn.optimizely.com/img/22744560884/bfe392b17044466786e01eddb7f09850.png";
 
 describe("Overlay Component", () => {
   let overlay;
@@ -18,15 +18,23 @@ describe("Overlay Component", () => {
   });
 
   it("should render with default attributes", () => {
-    const overlayElement = overlay.shadowRoot.querySelector(".cro-fullscreen-overlay");
+    const overlayElement = overlay.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay"
+    );
 
     // Check if overlay is hidden initially
     expect(overlayElement).toHaveClass("cro-fullscreen-overlay--hide");
     expect(overlayElement).toHaveAttribute("aria-hidden", "true");
 
-    const header = overlay.shadowRoot.querySelector(".cro-fullscreen-overlay--header");
-    const body = overlay.shadowRoot.querySelector(".cro-fullscreen-overlay--body");
-    const footer = overlay.shadowRoot.querySelector(".cro-fullscreen-overlay--footer");
+    const header = overlay.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay--header"
+    );
+    const body = overlay.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay--body"
+    );
+    const footer = overlay.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay--footer"
+    );
 
     // Check default text content
     expect(header.textContent.trim()).toBe("Default Header");
@@ -39,9 +47,15 @@ describe("Overlay Component", () => {
     overlay.setAttribute("body", "Updated Body");
     overlay.setAttribute("footer", "Updated Footer");
 
-    const header = overlay.shadowRoot.querySelector(".cro-fullscreen-overlay--header");
-    const body = overlay.shadowRoot.querySelector(".cro-fullscreen-overlay--body");
-    const footer = overlay.shadowRoot.querySelector(".cro-fullscreen-overlay--footer");
+    const header = overlay.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay--header"
+    );
+    const body = overlay.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay--body"
+    );
+    const footer = overlay.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay--footer"
+    );
 
     // Check if updated content is reflected correctly
     expect(header.textContent).toBe("Updated Header");
@@ -50,8 +64,12 @@ describe("Overlay Component", () => {
   });
 
   it("should toggle overlay visibility when close button is clicked", () => {
-    const overlayElement = overlay.shadowRoot.querySelector(".cro-fullscreen-overlay");
-    const closeButton = overlay.shadowRoot.querySelector(".cro-fullscreen-overlay--overlay-close");
+    const overlayElement = overlay.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay"
+    );
+    const closeButton = overlay.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay--overlay-close"
+    );
 
     // Initially, the overlay should be hidden
     expect(overlayElement).toHaveClass("cro-fullscreen-overlay--hide");
@@ -59,7 +77,7 @@ describe("Overlay Component", () => {
 
     // Simulate a click on the close button to show the overlay
     closeButton.click();
-    
+
     // After clicking, the overlay should be visible
     expect(overlayElement).not.toHaveClass("cro-fullscreen-overlay--hide");
     expect(overlayElement).toHaveClass("cro-fullscreen-overlay--active");
@@ -74,8 +92,12 @@ describe("Overlay Component", () => {
   });
 
   it("should correctly toggle aria-hidden attribute when overlay visibility changes", () => {
-    const overlayElement = overlay.shadowRoot.querySelector(".cro-fullscreen-overlay");
-    const closeButton = overlay.shadowRoot.querySelector(".cro-fullscreen-overlay--overlay-close");
+    const overlayElement = overlay.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay"
+    );
+    const closeButton = overlay.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay--overlay-close"
+    );
 
     // Initially, the overlay should have aria-hidden='true'
     expect(overlayElement).toHaveAttribute("aria-hidden", "true");
@@ -109,7 +131,7 @@ describe("Overlay Component", () => {
   //     // Simulate a click on the close button
   //     closeButton.click();
 
-//     // Check if handleCloseButtonClick was called
-//     expect(spy).toHaveBeenCalled();
-//   });
+  //     // Check if handleCloseButtonClick was called
+  //     expect(spy).toHaveBeenCalled();
+  //   });
 });

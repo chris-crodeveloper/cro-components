@@ -90,9 +90,14 @@ class Overlay extends HTMLElement {
 
     this.shadowRoot.append(style);
 
-    this.closeButton = this.shadowRoot.querySelector(".cro-fullscreen-overlay--overlay-close");
+    this.closeButton = this.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay--overlay-close"
+    );
     this.overlayDiv = this.shadowRoot.querySelector(".cro-fullscreen-overlay");
-    this.closeButton.addEventListener("click", this.handleCloseButtonClick.bind(this));
+    this.closeButton.addEventListener(
+      "click",
+      this.handleCloseButtonClick.bind(this)
+    );
   }
 
   static get observedAttributes() {
@@ -100,9 +105,13 @@ class Overlay extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    const header = this.shadowRoot.querySelector(".cro-fullscreen-overlay--header");
+    const header = this.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay--header"
+    );
     const body = this.shadowRoot.querySelector(".cro-fullscreen-overlay--body");
-    const footer = this.shadowRoot.querySelector(".cro-fullscreen-overlay--footer");
+    const footer = this.shadowRoot.querySelector(
+      ".cro-fullscreen-overlay--footer"
+    );
 
     // Avoid unnecessary updates
     if (oldValue !== newValue) {
@@ -118,7 +127,9 @@ class Overlay extends HTMLElement {
     this.overlayDiv.classList.toggle("cro-fullscreen-overlay--hide");
 
     // Set aria-hidden attribute for accessibility
-    const isVisible = this.overlayDiv.classList.contains("cro-fullscreen-overlay--active");
+    const isVisible = this.overlayDiv.classList.contains(
+      "cro-fullscreen-overlay--active"
+    );
     this.overlayDiv.setAttribute("aria-hidden", !isVisible);
   }
 }

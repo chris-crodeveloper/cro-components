@@ -13,6 +13,6 @@ export default [
       quotes: ["error", "double"],
       semi: ["error", "always"]
     },
-    ignores: ["storybook-static/*", "dist/*"],
+    ignores: ["storybook-static/*", "dist/*"]
   }
 ];

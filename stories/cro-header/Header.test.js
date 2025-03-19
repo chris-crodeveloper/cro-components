@@ -14,18 +14,18 @@ describe("Header Component", () => {
     document.body.innerHTML = "";
   });
 
-  it("should render with default label \"Header\"", () => {
+  it("should render with default label 'Header'", () => {
     const h3 = header.shadowRoot.querySelector("h3");
     expect(h3.textContent).toBe("Header");
   });
 
-  it("should render with custom label when \"label\" attribute is set", () => {
+  it("should render with custom label when 'label' attribute is set", () => {
     header.setAttribute("label", "Custom Header");
     const h3 = header.shadowRoot.querySelector("h3");
     expect(h3.textContent).toBe("Custom Header");
   });
 
-  it("should update the label when \"label\" attribute is changed", () => {
+  it("should update the label when 'label' attribute is changed", () => {
     header.setAttribute("label", "Initial Header");
     const h3 = header.shadowRoot.querySelector("h3");
     expect(h3.textContent).toBe("Initial Header");

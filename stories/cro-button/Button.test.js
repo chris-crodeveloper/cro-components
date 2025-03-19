@@ -14,22 +14,22 @@ describe("Button component", () => {
     document.body.innerHTML = "";
   });
 
-  it("should render with default label \"Click Me\"", () => {
+  it("should render with default label 'Click Me'", () => {
     // Check if the default label is rendered correctly
     const span = button.shadowRoot.querySelector("span");
     expect(span.textContent).toBe("Click Me");
   });
 
-  it("should apply \"secondary\" class when type is \"secondary\"", () => {
+  it("should apply 'secondary' class when type is 'secondary'", () => {
     // Set the "type" attribute to "secondary"
     button.setAttribute("type", "secondary");
-    
+
     // Trigger attribute change handling
     const buttonElement = button.shadowRoot.querySelector("button");
     expect(buttonElement.classList.contains("secondary")).toBe(true);
   });
 
-  it("should dispatch \"button-click\" event when clicked", () => {
+  it("should dispatch 'button-click' event when clicked", () => {
     // Create a mock function to listen for the "button-click" event
     const handleClick = jest.fn();
     button.addEventListener("button-click", handleClick);
@@ -41,5 +41,4 @@ describe("Button component", () => {
     // Check if the "button-click" event was dispatched
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
-
 });
