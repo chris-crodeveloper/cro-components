@@ -4,19 +4,19 @@ class Overlay extends HTMLElement {
     this.attachShadow({ mode: "open" });
 
     this.shadowRoot.innerHTML = `
-      <div id="${this.getAttribute('overlayId') || 'default-overlay'}" class="cro-fullscreen-overlay cro-fullscreen-overlay--hide" role="dialog" aria-labelledby="overlay-header" aria-hidden="true">
+      <div id="${this.getAttribute("overlayId") || "default-overlay"}" class="cro-fullscreen-overlay cro-fullscreen-overlay--hide" role="dialog" aria-labelledby="overlay-header" aria-hidden="true">
         <div class="cro-fullscreen-overlay--container">
           <span class="cro-fullscreen-overlay--overlay-close" role="button" aria-label="Close Overlay">
             <img alt="close" src="//cdn.optimizely.com/img/22744560884/bfe392b17044466786e01eddb7f09850.png" />
           </span>
           <div id="overlay-header" class="cro-fullscreen-overlay--header">
-            ${this.getAttribute('header') || 'Default Header'}
+            ${this.getAttribute("header") || "Default Header"}
           </div>
           <div class="cro-fullscreen-overlay--body">
-            ${this.getAttribute('body') || 'Default Body Content'}
+            ${this.getAttribute("body") || "Default Body Content"}
           </div>
           <div class="cro-fullscreen-overlay--footer">
-            ${this.getAttribute('footer') || 'Default Footer'}
+            ${this.getAttribute("footer") || "Default Footer"}
           </div>
         </div>
       </div>
@@ -90,40 +90,40 @@ class Overlay extends HTMLElement {
 
     this.shadowRoot.append(style);
 
-    this.closeButton = this.shadowRoot.querySelector('.cro-fullscreen-overlay--overlay-close');
-    this.overlayDiv = this.shadowRoot.querySelector('.cro-fullscreen-overlay');
-    this.closeButton.addEventListener('click', this.handleCloseButtonClick.bind(this));
+    this.closeButton = this.shadowRoot.querySelector(".cro-fullscreen-overlay--overlay-close");
+    this.overlayDiv = this.shadowRoot.querySelector(".cro-fullscreen-overlay");
+    this.closeButton.addEventListener("click", this.handleCloseButtonClick.bind(this));
   }
 
   static get observedAttributes() {
-    return ['overlayId', 'header', 'body', 'footer'];
+    return ["overlayId", "header", "body", "footer"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    const header = this.shadowRoot.querySelector('.cro-fullscreen-overlay--header');
-    const body = this.shadowRoot.querySelector('.cro-fullscreen-overlay--body');
-    const footer = this.shadowRoot.querySelector('.cro-fullscreen-overlay--footer');
+    const header = this.shadowRoot.querySelector(".cro-fullscreen-overlay--header");
+    const body = this.shadowRoot.querySelector(".cro-fullscreen-overlay--body");
+    const footer = this.shadowRoot.querySelector(".cro-fullscreen-overlay--footer");
 
     // Avoid unnecessary updates
     if (oldValue !== newValue) {
-      if (name === 'header' && header) header.innerHTML = newValue;
-      if (name === 'body' && body) body.innerHTML = newValue;
-      if (name === 'footer' && footer) footer.innerHTML = newValue;
+      if (name === "header" && header) header.innerHTML = newValue;
+      if (name === "body" && body) body.innerHTML = newValue;
+      if (name === "footer" && footer) footer.innerHTML = newValue;
     }
   }
 
   handleCloseButtonClick() {
     // Toggle active and hide classes with more specific logic
-    this.overlayDiv.classList.toggle('cro-fullscreen-overlay--active');
-    this.overlayDiv.classList.toggle('cro-fullscreen-overlay--hide');
+    this.overlayDiv.classList.toggle("cro-fullscreen-overlay--active");
+    this.overlayDiv.classList.toggle("cro-fullscreen-overlay--hide");
 
     // Set aria-hidden attribute for accessibility
-    const isVisible = this.overlayDiv.classList.contains('cro-fullscreen-overlay--active');
-    this.overlayDiv.setAttribute('aria-hidden', !isVisible);
+    const isVisible = this.overlayDiv.classList.contains("cro-fullscreen-overlay--active");
+    this.overlayDiv.setAttribute("aria-hidden", !isVisible);
   }
 }
 
 // Define the custom element if not already defined
-if (!customElements.get('cro-overlay')) {
+if (!customElements.get("cro-overlay")) {
   customElements.define("cro-overlay", Overlay);
 }

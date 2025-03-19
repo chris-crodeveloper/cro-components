@@ -9,7 +9,7 @@ class Header extends HTMLElement {
         `;
 
     const style = document.createElement("style");
-    style.textContent = `h3 { font-size: 30px; }`;
+    style.textContent = "h3 { font-size: 30px; }";
 
     // Append children to shadow DOM
     this.shadowRoot.append(style);

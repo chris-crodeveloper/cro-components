@@ -11,6 +11,7 @@
     "lint:check": "eslint . --max-warnings=0 --ignore-pattern 'storybook-static/*' --ignore-pattern 'dist/*' ",
     "lint:fix": "npm run lint:check -- --fix",
     "source:check": "npm run lint:check && npm run prettier:check",
+    "source:fix": "npm run lint:fix && npm run prettier:fix",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "storybook build && rollup -c && npm run generate-exports",
