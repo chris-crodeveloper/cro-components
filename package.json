@@ -1,7 +1,7 @@
 {
   "name": "@virginmediao2/cro-components",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "storybook-static/index.html",
   "scripts": {
     "test": "jest",
     "prettier:check": "prettier . --check '!./storybook-static' '!./dist' '!./coverage'",
@@ -13,8 +13,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "storybook build && rollup -c && npm run generate-exports",
-    "generate-exports": "node generate-exports.js",
-    "semantic-release": "semantic-release"
+    "generate-exports": "node generate-exports.js"
   },
   "files": [
     "dist"
