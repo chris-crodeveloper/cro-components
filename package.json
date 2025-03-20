@@ -15,7 +15,6 @@
     "build": "storybook build && rollup -c && npm run generate-exports",
     "generate-exports": "node generate-exports.js",
     "semantic-release": "semantic-release"
-
   },
   "files": [
     "dist"
