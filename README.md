@@ -1,5 +1,3 @@
-Sure! Here's a plain text version of the README file. You can copy and paste it into a `README.md` file.
-
 ```
 # @virginmediao2/cro-components
 
@@ -142,5 +140,3 @@ For a full list of dependencies, see the `package.json`.
 
 This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
 ```
-
-You can now copy this content into your `README.md` file. Let me know if you need any adjustments!
