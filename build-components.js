@@ -35,72 +35,117 @@ function validateProject() {
   return true;
 }
 
-// Get the path to the CRO components package
-function getCROPackagePath() {
-  try {
-    // Try multiple resolution methods
-    let packagePath;
-    
-    // Method 1: Direct require.resolve
-    try {
-      packagePath = path.dirname(require.resolve("cro-components/package.json"));
-      return packagePath;
-    } catch (e) {}
-    
-    // Method 2: Check node_modules directly
-    try {
-      packagePath = path.resolve(process.cwd(), "node_modules/cro-components");
-      if (fs.existsSync(path.join(packagePath, "package.json"))) {
-        return packagePath;
-      }
-    } catch (e) {}
-    
-    // Method 3: Check global node_modules (for npm link)
-    try {
-      const { execSync } = require('child_process');
-      const globalPath = execSync('npm root -g', { encoding: 'utf8' }).trim();
-      packagePath = path.join(globalPath, "cro-components");
-      if (fs.existsSync(path.join(packagePath, "package.json"))) {
-        return packagePath;
-      }
-    } catch (e) {}
-    
-    throw new Error("Package not found in any location");
-    
-  } catch (error) {
-    console.error("❌ Could not find cro-components package");
-    console.error("   Make sure cro-components is installed: npm install cro-components");
-    console.error("   Debug info:", error.message);
-    process.exit(1);
+// Create inline rollup configuration
+function createRollupConfig() {
+  return `
+import fs from "fs";
+import path from "path";
+
+// Get all component files from cro-components directory
+function getFiles(dir) {
+  if (!fs.existsSync(dir)) {
+    return [];
   }
+  
+  return fs.readdirSync(dir).flatMap(file => {
+    const fullPath = path.join(dir, file);
+    return fs.statSync(fullPath).isDirectory() ? getFiles(fullPath) : fullPath;
+  });
 }
 
-// Copy necessary build configuration from the package
-function setupBuildConfig() {
-  const croPackagePath = getCROPackagePath();
-  const projectRoot = process.cwd();
+// Find components
+const croComponentsDir = path.resolve(process.cwd(), "cro-components");
+const components = getFiles(croComponentsDir)
+  .filter(
+    file =>
+      (file.endsWith(".js") || file.endsWith(".ts")) &&
+      !file.endsWith(".stories.js") &&
+      !file.endsWith(".test.js")
+  )
+  .reduce((allComponents, file) => {
+    const name = path.basename(file, path.extname(file));
+    allComponents[name] = file;
+    return allComponents;
+  }, {});
+
+console.log("Found components:", Object.keys(components));
+
+export default {
+  input: components,
+  output: {
+    dir: path.resolve(process.cwd(), "cro-component-exports"),
+    format: "es",
+    entryFileNames: "[name].js"
+  },
+  plugins: []
+};
+`;
+}
+
+// Generate exports inline
+function generateExports() {
+  const exportsFolder = path.resolve(process.cwd(), "cro-component-exports");
+  const packageJsonPath = path.resolve(process.cwd(), "package.json");
   
-  // Files to copy from the package
-  const filesToCopy = [
-    "rollup.config.js",
-    "generate-exports.js"
-  ];
+  if (!fs.existsSync(exportsFolder)) {
+    console.error("❌ Exports folder not found");
+    return;
+  }
   
-  filesToCopy.forEach(file => {
-    const sourcePath = path.join(croPackagePath, file);
-    const destPath = path.join(projectRoot, `.cro-temp-${file}`);
+  const files = fs.readdirSync(exportsFolder).filter(file => file.endsWith(".js"));
+  
+  if (files.length === 0) {
+    console.warn("⚠️  No JavaScript files found in exports folder");
+    return;
+  }
+  
+  // Generate exports object
+  const exports = files.reduce((acc, file) => {
+    const name = `./${path.basename(file, ".js")}`;
+    acc[name] = `./cro-component-exports/${file}`;
+    return acc;
+  }, {});
+  
+  exports["./package.json"] = "./package.json";
+  
+  // Update package.json
+  if (fs.existsSync(packageJsonPath)) {
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
+    packageJson.exports = exports;
     
-    if (fs.existsSync(sourcePath)) {
-      fs.copyFileSync(sourcePath, destPath);
+    if (!packageJson.types) {
+      packageJson.types = "./cro-component-exports/index.d.ts";
     }
-  });
+    
+    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+    
+    // Generate basic TypeScript definitions
+    const typeDefinitions = files.map(file => {
+      const name = path.basename(file, ".js");
+      return `export declare const ${name}: any;`;
+    }).join('\n');
+    
+    const dtsContent = `// Auto-generated type definitions for CRO Components
+${typeDefinitions}
+`;
+    
+    fs.writeFileSync(path.resolve(process.cwd(), "cro-component-exports/index.d.ts"), dtsContent);
+    
+    console.log(`✅ Generated exports for ${files.length} components`);
+    console.log(`📦 Updated package.json with exports`);
+    console.log(`📝 Generated TypeScript definitions`);
+    
+    const componentNames = Object.keys(exports).filter(key => key !== "./package.json");
+    if (componentNames.length > 0) {
+      console.log(`🔗 Available exports:`, componentNames.join(", "));
+    }
+  }
 }
 
 // Clean up temporary files
 function cleanup() {
   const tempFiles = [
-    ".cro-temp-rollup.config.js",
-    ".cro-temp-generate-exports.js"
+    ".cro-temp-rollup.config.js"
   ];
   
   tempFiles.forEach(file => {
@@ -120,47 +165,32 @@ async function build() {
   }
   
   try {
-    setupBuildConfig();
+    // Create inline rollup config instead of copying files
+    const rollupConfig = createRollupConfig();
+    const configPath = path.resolve(process.cwd(), ".cro-temp-rollup.config.js");
+    fs.writeFileSync(configPath, rollupConfig);
     
     // Run rollup build
     console.log("📦 Bundling components with Rollup...");
-    const rollupProcess = spawn("npx", ["rollup", "-c", ".cro-temp-rollup.config.js"], {
-      stdio: "inherit",
-      shell: true
+    const rollupProcess = spawn("npx", ["rollup", "-c", configPath], {
+      stdio: "inherit"
     });
     
     rollupProcess.on("close", (code) => {
       if (code === 0) {
         console.log("✅ Rollup build completed");
         
-        // Generate exports
+        // Generate exports using inline script
         console.log("📝 Generating exports...");
-        const exportProcess = spawn("node", [".cro-temp-generate-exports.js"], {
-          stdio: "inherit",
-          shell: true
-        });
+        generateExports();
         
-        exportProcess.on("close", (exportCode) => {
-          cleanup();
-          
-          if (exportCode === 0) {
-            console.log("🎉 Build completed successfully!");
-            console.log("📁 Components exported to: ./cro-component-exports/");
-            console.log("");
-            console.log("Next steps:");
-            console.log("1. Import your components: import './cro-component-exports/MyComponent.js'");
-            console.log("2. Use in your CRO tests: document.createElement('cro-my-component')");
-          } else {
-            console.error("❌ Export generation failed");
-            process.exit(1);
-          }
-        });
-        
-        exportProcess.on("error", (error) => {
-          cleanup();
-          console.error("❌ Export generation error:", error);
-          process.exit(1);
-        });
+        cleanup();
+        console.log("🎉 Build completed successfully!");
+        console.log("📁 Components exported to: ./cro-component-exports/");
+        console.log("");
+        console.log("Next steps:");
+        console.log("1. Import your components: import './cro-component-exports/MyComponent.js'");
+        console.log("2. Use in your CRO tests: document.createElement('cro-my-component')");
       } else {
         cleanup();
         console.error("❌ Rollup build failed");
