@@ -81,7 +81,6 @@
   },
   "dependencies": {
     "@rollup/plugin-node-resolve": "^16.0.0",
-    "@virginmediao2/eslint-config": "^3.0.0"
   },
   "exports": {
     "./Button": "./cro-component-exports/Button.js",

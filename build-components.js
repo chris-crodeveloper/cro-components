@@ -19,10 +19,10 @@ function validateProject() {
   }
   
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
-  if (!packageJson.dependencies?.["@virginmediao2/cro-components"] && 
-      !packageJson.devDependencies?.["@virginmediao2/cro-components"]) {
-    console.error("❌ @virginmediao2/cro-components not found in dependencies");
-    console.error("   Install it first: npm install @virginmediao2/cro-components");
+  if (!packageJson.dependencies?.["cro-components"] && 
+      !packageJson.devDependencies?.["cro-components"]) {
+    console.error("❌ cro-components not found in dependencies");
+    console.error("   Install it first: npm install cro-components");
     process.exit(1);
   }
   
@@ -38,10 +38,10 @@ function validateProject() {
 // Get the path to the CRO components package
 function getCROPackagePath() {
   try {
-    const packagePath = path.dirname(require.resolve("@virginmediao2/cro-components/package.json"));
+    const packagePath = path.dirname(require.resolve("cro-components/package.json"));
     return packagePath;
   } catch (error) {
-    console.error("❌ Could not find @virginmediao2/cro-components package");
+    console.error("❌ Could not find cro-components package");
     process.exit(1);
   }
 }

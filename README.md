@@ -1,4 +1,4 @@
-@virginmediao2/cro-components
+cro-components
 A collection of reusable web components for Virgin Media O2 CRO (Conversion Rate Optimization) tests, built with Storybook and designed for extensibility.
 
 Table of Contents
@@ -16,7 +16,7 @@ Installation
 Install the package in your project:
 
 bash
-npm install @virginmediao2/cro-components
+npm install cro-components
 After installation, the package will automatically set up a cro-custom-components directory in your project root where you can add project-specific components.
 
 Quick Start
@@ -25,7 +25,7 @@ Import and use components in your CRO tests:
 
 javascript
 // Import the component
-import '@virginmediao2/cro-components/Button';
+import 'cro-components/Button';
 
 // Use in your HTML
 const button = document.createElement('cro-button');
@@ -158,12 +158,12 @@ Components are exported using this pattern:
 
 javascript
 // Core components
-import '@virginmediao2/cro-components/Button';
-import '@virginmediao2/cro-components/Header';
-import '@virginmediao2/cro-components/Overlay';
+import 'cro-components/Button';
+import 'cro-components/Header';
+import 'cro-components/Overlay';
 
 // Custom components (prefixed with "Custom")
-import '@virginmediao2/cro-components/CustomMyButton';
+import 'cro-components/CustomMyButton';
 Testing and Linting
 Running Tests
 bash
@@ -179,7 +179,7 @@ npm run prettier:fix       # Auto-fix formatting
 npm run source:check       # Run both linting and formatting checks
 npm run source:fix         # Auto-fix both linting and formatting
 Project Structure
-@virginmediao2/cro-components/
+cro-components/
 ├── stories/                          # Core components
 │   ├── cro-button/
 │   ├── cro-header/

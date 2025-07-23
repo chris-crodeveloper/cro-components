@@ -17,7 +17,7 @@ function setupCroComponents() {
     // Create a README for the cro-components directory
     const readmeContent = `# CRO Components
 
-This directory is for your project-specific CRO components that extend the base @virginmediao2/cro-components library.
+This directory is for your project-specific CRO components that extend the base cro-components library.
 
 ## Creating a New Component
 
@@ -90,7 +90,7 @@ In your CRO tests:
 
 \`\`\`javascript
 // Import the component
-import '@virginmediao2/cro-components/MyButton';
+import 'cro-components/MyButton';
 
 // Use the component
 const button = document.createElement('cro-my-button');
@@ -163,7 +163,7 @@ function isConsumingProject() {
   }
   
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
-  return packageJson.name !== "@virginmediao2/cro-components";
+  return packageJson.name !== "cro-components";
 }
 
 // Main setup function
