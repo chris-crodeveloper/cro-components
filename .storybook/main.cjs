@@ -1,15 +1,13 @@
-import fs from "fs";
-import path from "path";
+// main.cjs
+const fs = require("fs");
+const path = require("path");
 
-/** @type { import('@storybook/web-components').StorybookConfig } */
-
-const rootDir = path.resolve(require.main.path, "../.."); // consumer's project root
+const rootDir = path.resolve(require.main.path, "../..");
 const croComponentsPath = path.resolve(rootDir, "cro-components");
 
-const config = {
+module.exports = {
   stories: [
     path.join(__dirname, "../stories/**/*.stories.@(js|jsx|ts|tsx|mdx)"),
-    path.join(__dirname, "../stories/**/*.mdx"),
     ...(fs.existsSync(croComponentsPath)
       ? [path.join(croComponentsPath, "**/*.stories.@(js|jsx|ts|tsx|mdx)")]
       : [])
@@ -34,5 +32,3 @@ const config = {
     return config;
   }
 };
-
-export default config;
