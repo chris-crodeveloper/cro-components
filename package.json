@@ -1,6 +1,6 @@
 {
   "name": "cro-components",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "storybook-static/index.html",
   "types": "./cro-component-exports/index.d.ts",
   "bin": {
@@ -82,7 +82,7 @@
   },
   "dependencies": {
     "@rollup/plugin-node-resolve": "^16.0.0",
-     "@storybook/addon-essentials": "^8.4.5",
+    "@storybook/addon-essentials": "^8.4.5",
     "@storybook/addon-interactions": "^8.6.4",
     "@storybook/addon-jest": "^8.6.7",
     "@storybook/addon-storysource": "^8.4.7",
