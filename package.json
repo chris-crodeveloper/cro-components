@@ -80,7 +80,7 @@
     "wait-on": "^8.0.3"
   },
   "dependencies": {
-    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.0"
   },
   "exports": {
     "./Button": "./cro-component-exports/Button.js",
