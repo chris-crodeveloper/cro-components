@@ -1,6 +1,6 @@
 {
   "name": "cro-components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "storybook-static/index.html",
   "types": "./cro-component-exports/index.d.ts",
   "bin": {
