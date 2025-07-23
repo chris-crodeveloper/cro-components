@@ -4,7 +4,8 @@
   "main": "storybook-static/index.html",
   "types": "./cro-component-exports/index.d.ts",
   "bin": {
-    "cro-generate": "./generate-component.js"
+    "cro-generate": "./generate-component.js",
+    "cro-build": "./build-components.js"
   },
   "scripts": {
     "test": "jest",
@@ -23,8 +24,12 @@
   },
   "files": [
     "generate-component.js",
+    "build-components.js",
     "postinstall.js",
-    "README.md"
+    "rollup.config.js",
+    "generate-exports.js",
+    "README.md",
+    "stories/"
   ],
   "type": "module",
   "keywords": [
