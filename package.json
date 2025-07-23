@@ -1,28 +1,42 @@
 {
-  "name": "@virginmediao2/cro-components",
+  "name": "cro-components",
   "version": "1.0.0",
   "main": "storybook-static/index.html",
+  "types": "./cro-component-exports/index.d.ts",
+  "bin": {
+    "cro-generate": "./generate-component.js"
+  },
   "scripts": {
     "test": "jest",
     "prettier:check": "prettier . --check '!./storybook-static' '!./dist' '!./coverage'",
     "prettier:fix": "npm run prettier:check -- --write",
-    "lint:check": "eslint . --max-warnings=0 --ignore-pattern 'storybook-static/*' --ignore-pattern 'coverage/*'  ",
+    "lint:check": "eslint . --max-warnings=0 --ignore-pattern 'storybook-static/*' --ignore-pattern 'coverage/*'",
     "lint:fix": "npm run lint:check -- --fix",
     "source:check": "npm run lint:check && npm run prettier:check",
     "source:fix": "npm run lint:fix && npm run prettier:fix",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "storybook build && rollup -c && npm run generate-exports",
-    "generate-exports": "node generate-exports.js"
+    "generate-exports": "node generate-exports.js",
+    "generate-component": "node generate-component.js",
+    "postinstall": "node postinstall.js"
   },
   "files": [
-    "dist"
+    "generate-component.js",
+    "postinstall.js",
+    "README.md"
   ],
   "type": "module",
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "web-components",
+    "cro",
+    "conversion-optimization",
+    "ui-components",
+    "storybook"
+  ],
+  "author": "Virgin Media O2",
   "license": "ISC",
-  "description": "",
+  "description": "A collection of reusable web components for Virgin Media O2 CRO tests, with extensible architecture for project-specific components",
   "devDependencies": {
     "@babel/preset-env": "^7.26.9",
     "@chromatic-com/storybook": "^3.2.2",
@@ -65,8 +79,13 @@
     "@virginmediao2/eslint-config": "^3.0.0"
   },
   "exports": {
-    "./Button": "./dist/Button.js",
-    "./Header": "./dist/Header.js",
-    "./Overlay": "./dist/Overlay.js"
+    "./Button": "./cro-component-exports/Button.js",
+    "./Header": "./cro-component-exports/Header.js",
+    "./Overlay": "./cro-component-exports/Overlay.js",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "rollup": "^2.79.2",
+    "storybook": "^8.4.5"
   }
 }

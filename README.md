@@ -1,142 +1,187 @@
-```
-# @virginmediao2/cro-components
+@virginmediao2/cro-components
+A collection of reusable web components for Virgin Media O2 CRO (Conversion Rate Optimization) tests, built with Storybook and designed for extensibility.
 
-A collection of reusable components for Virgin Media O2, built with Storybook and Rollup.
+Table of Contents
+Installation
+Quick Start
+Creating Custom Components
+Scripts
+Core vs Custom Components
+Development Workflow
+Build and Export
+Testing and Linting
+Dependencies
+License
+Installation
+Install the package in your project:
 
-## Table of Contents
-- [Installation](#installation)
-- [Scripts](#scripts)
-- [Development](#development)
-- [Build and Export](#build-and-export)
-- [Testing and Linting](#testing-and-linting)
-- [Dependencies](#dependencies)
-- [License](#license)
+bash
+npm install @virginmediao2/cro-components
+After installation, the package will automatically set up a cro-custom-components directory in your project root where you can add project-specific components.
 
-## Installation
+Quick Start
+Using Existing Components
+Import and use components in your CRO tests:
 
-To install the package, run the following command:
+javascript
+// Import the component
+import '@virginmediao2/cro-components/Button';
 
-```bash
-npm install
-```
+// Use in your HTML
+const button = document.createElement('cro-button');
+button.setAttribute('label', 'Click Me');
+button.setAttribute('type', 'primary');
+document.body.appendChild(button);
+Creating Your First Custom Component
+Generate a new custom component:
 
-## Scripts
+bash
+npx cro-generate MyAwesomeButton --custom
+This creates a complete component structure with:
 
-This project includes several npm scripts to help with development, building, testing, and linting.
+Web component implementation
+Storybook stories
+Jest tests
+Creating Custom Components
+Using the CLI Generator
+The easiest way to create custom components is using the built-in CLI:
 
-- `test`: Run tests using Jest.
-- `prettier:check`: Check if files are formatted according to Prettier rules.
-- `prettier:fix`: Fix formatting issues in files.
-- `lint:check`: Run ESLint to check for code issues (max warnings: 0).
-- `lint:fix`: Automatically fix code issues according to ESLint rules.
-- `source:check`: Run both ESLint and Prettier checks.
-- `source:fix`: Automatically fix issues with ESLint and Prettier.
-- `storybook`: Start Storybook development server on port 6006.
-- `build-storybook`: Build Storybook static files for deployment.
-- `build`: Build Storybook, bundle with Rollup, and generate exports.
-- `generate-exports`: Run a custom script to generate exports.
+bash
+# Create a custom component
+npx cro-generate ComponentName --custom
 
-### Example usage:
+# Create a core component (for maintainers)
+npx cro-generate ComponentName
+Manual Creation
+If you prefer to create components manually, follow this structure in your cro-custom-components directory:
 
-To start the Storybook development environment:
+cro-custom-components/
+├── custom-my-component/
+│   ├── MyComponent.js          # Web component implementation
+│   ├── MyComponent.stories.js  # Storybook stories
+│   └── MyComponent.test.js     # Jest tests
+Component Template
+Here's a basic template for custom components:
 
-```bash
+javascript
+class MyComponent extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.innerHTML = `
+      <div class="my-component">
+        <span>${this.getAttribute("label") || "Default Label"}</span>
+      </div>
+    `;
+
+    const style = document.createElement("style");
+    style.textContent = `
+      .my-component {
+        padding: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-family: Arial, sans-serif;
+      }
+    `;
+
+    this.shadowRoot.append(style);
+  }
+
+  static get observedAttributes() {
+    return ["label"];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    const element = this.shadowRoot.querySelector("span");
+    if (name === "label" && element) {
+      element.textContent = newValue;
+    }
+  }
+}
+
+if (!customElements.get("custom-my-component")) {
+  customElements.define("custom-my-component", MyComponent);
+}
+Scripts
+Development Scripts
+npm run storybook - Start Storybook development server on port 6006
+npm run generate-component <name> [--custom] - Generate a new component
+npm test - Run Jest tests
+npm run lint:check - Check for linting errors
+npm run prettier:check - Check code formatting
+Build Scripts
+npm run build - Build Storybook, bundle with Rollup, and generate exports
+npm run build-storybook - Build Storybook static files only
+npm run generate-exports - Generate package.json exports
+Quality Scripts
+npm run source:check - Run both linting and formatting checks
+npm run source:fix - Auto-fix linting and formatting issues
+Core vs Custom Components
+Core Components (Package Maintainers)
+Located in ./stories/, these are the base components provided by the package:
+
+Button (cro-button) - Configurable button component
+Header (cro-header) - Header component with customizable text
+Overlay (cro-overlay) - Full-screen overlay with header, body, and footer
+Custom Components (Package Users)
+Located in ./cro-custom-components/, these are project-specific extensions:
+
+Automatically prefixed with "Custom" in exports to avoid conflicts
+Appear under "Custom/" category in Storybook
+Follow the same testing and documentation standards
+Development Workflow
+1. Start Development Environment
+bash
 npm run storybook
-```
-
-To build the project:
-
-```bash
+2. Create a New Component
+bash
+npx cro-generate MyNewComponent --custom
+3. Develop and Test
+Edit your component in cro-custom-components/custom-my-new-component/
+View it in Storybook at http://localhost:6006
+Run tests with npm test
+4. Build for Production
+bash
 npm run build
-```
+Your custom components will be automatically included in the build and available for export.
 
-To check for code formatting issues:
+Build and Export
+The build process automatically:
 
-```bash
-npm run prettier:check
-```
+Discovers Components: Scans both core (./stories/) and custom (./cro-custom-components/) directories
+Bundles with Rollup: Creates optimized ES modules in the ./dist/ folder
+Generates Exports: Updates package.json with proper export paths
+Creates Type Definitions: Generates TypeScript definitions for better IDE support
+Builds Storybook: Creates static documentation site
+Export Structure
+Components are exported using this pattern:
 
-## Development
+javascript
+// Core components
+import '@virginmediao2/cro-components/Button';
+import '@virginmediao2/cro-components/Header';
+import '@virginmediao2/cro-components/Overlay';
 
-The development process includes using Storybook to view and test components in isolation.
-
-1. To start the development environment, run:
-
-```bash
-npm run storybook
-```
-
-2. To build the Storybook static files, run:
-
-```bash
-npm run build-storybook
-```
-
-3. The components are available for export via the following paths:
-    - `./Button`: Exported as `./dist/Button.js`
-    - `./Header`: Exported as `./dist/Header.js`
-    - `./Overlay`: Exported as `./dist/Overlay.js`
-
-## Build and Export
-
-To build and export the components:
-
-```bash
-npm run build
-```
-
-This will:
-- Build Storybook
-- Bundle the components with Rollup
-- Generate the necessary exports
-
-## Testing and Linting
-
-To ensure code quality, this project uses ESLint and Jest for linting and testing respectively.
-
-- To run tests, use:
-
-```bash
-npm test
-```
-
-- To check for linting errors, run:
-
-```bash
-npm run lint:check
-```
-
-- To automatically fix linting errors, use:
-
-```bash
-npm run lint:fix
-```
-
-- To check for formatting issues with Prettier:
-
-```bash
-npm run prettier:check
-```
-
-- To automatically fix formatting issues:
-
-```bash
-npm run prettier:fix
-```
-
-## Dependencies
-
-This project uses the following key dependencies:
-
-- `@storybook`: To create the Storybook environment for developing components.
-- `rollup`: Bundler for JavaScript components.
-- `eslint`: Linting tool to enforce coding standards.
-- `jest`: Testing framework.
-- `prettier`: Code formatting tool.
-
-For a full list of dependencies, see the `package.json`.
-
-## License
-
-This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
-```
+// Custom components (prefixed with "Custom")
+import '@virginmediao2/cro-components/CustomMyButton';
+Testing and Linting
+Running Tests
+bash
+npm test                    # Run all tests
+npm test -- --watch        # Run tests in watch mode
+npm test Button.test.js     # Run specific test file
+Code Quality
+bash
+npm run lint:check          # Check for linting errors
+npm run lint:fix           # Auto-fix linting errors
+npm run prettier:check     # Check formatting
+npm run prettier:fix       # Auto-fix formatting
+npm run source:check       # Run both linting and formatting checks
+npm run source:fix         # Auto-fix both linting and formatting
+Project Structure
+@virginmediao2/cro-components/
+├── stories/                          # Core components
+│   ├── cro-button/
+│   ├── cro-header/
+│   └── cro-overlay/
+├── cro-custom-components/            #
