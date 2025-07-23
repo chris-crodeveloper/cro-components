@@ -29,7 +29,8 @@
     "rollup.config.js",
     "generate-exports.js",
     "README.md",
-    "stories/"
+    "stories/",
+    ".storybook/"
   ],
   "type": "module",
   "keywords": [
