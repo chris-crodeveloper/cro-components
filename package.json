@@ -81,7 +81,22 @@
     "wait-on": "^8.0.3"
   },
   "dependencies": {
-    "@rollup/plugin-node-resolve": "^16.0.0"
+    "@rollup/plugin-node-resolve": "^16.0.0",
+     "@storybook/addon-essentials": "^8.4.5",
+    "@storybook/addon-interactions": "^8.6.4",
+    "@storybook/addon-jest": "^8.6.7",
+    "@storybook/addon-storysource": "^8.4.7",
+    "@storybook/addon-styling-webpack": "^1.0.1",
+    "@storybook/addon-webpack5-compiler-swc": "^1.0.5",
+    "@storybook/blocks": "^8.4.5",
+    "@storybook/builder-webpack5": "^8.4.7",
+    "@storybook/manager-webpack5": "^6.5.16",
+    "@storybook/test": "^8.6.4",
+    "@storybook/test-runner": "^0.22.0",
+    "@storybook/web-components": "^8.4.7",
+    "@storybook/web-components-webpack5": "^8.4.5",
+    "@chromatic-com/storybook": "^3.2.2",
+    "storybook": "^8.4.5"
   },
   "exports": {
     "./Button": "./cro-component-exports/Button.js",
