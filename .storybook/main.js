@@ -2,13 +2,16 @@ import fs from "fs";
 import path from "path";
 
 /** @type { import('@storybook/web-components').StorybookConfig } */
+
+const rootDir = path.resolve(require.main.path, "../.."); // consumer's project root
+const croComponentsPath = path.resolve(rootDir, "cro-components");
+
 const config = {
   stories: [
-    "../stories/**/*.stories.@(js|jsx|ts|tsx|mdx)",
-    "../stories/**/*.mdx",
-    // Include cro-components stories if directory exists
-    ...(fs.existsSync(path.resolve(process.cwd(), "cro-components"))
-      ? ["../cro-components/**/*.stories.@(js|jsx|ts|tsx|mdx)"]
+    path.join(__dirname, "../stories/**/*.stories.@(js|jsx|ts|tsx|mdx)"),
+    path.join(__dirname, "../stories/**/*.mdx"),
+    ...(fs.existsSync(croComponentsPath)
+      ? [path.join(croComponentsPath, "**/*.stories.@(js|jsx|ts|tsx|mdx)")]
       : [])
   ],
   addons: [
@@ -23,14 +26,9 @@ const config = {
     name: "@storybook/web-components-webpack5",
     options: {}
   },
-  // Remove staticDirs since public directory doesn't exist
-  // If you want to add static assets later, create a public directory and uncomment:
-  // staticDirs: ["../public"],
-  
   webpackFinal: async (config) => {
-    // Add cro-components path to webpack resolve
-    const croComponentsPath = path.resolve(process.cwd(), "cro-components");
     if (fs.existsSync(croComponentsPath)) {
+      config.resolve.modules = config.resolve.modules || [];
       config.resolve.modules.push(croComponentsPath);
     }
     return config;
