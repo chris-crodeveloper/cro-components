@@ -1,11 +1,14 @@
-// main.cjs
-const fs = require("fs");
 const path = require("path");
+const fs = require("fs");
 
-const rootDir = path.resolve(require.main.path, "../..");
-const croComponentsPath = path.resolve(rootDir, "cro-components");
-console.log("Loading stories from:", path.join(croComponentsPath, "**/*.stories.@(js|jsx|ts|tsx|mdx)"));
+// This will get the directory of the project that started the process,
+// which is your parent project's root
+const projectRoot = path.resolve(process.cwd());
 
+// Construct the path to cro-components in the *parent project*
+const croComponentsPath = path.resolve(projectRoot, "cro-components");
+
+console.log("Loading stories from cro-components folder at:", croComponentsPath);
 
 module.exports = {
   stories: [
@@ -27,20 +30,22 @@ module.exports = {
     options: {}
   },
   webpackFinal: async (config) => {
-    // Add cro-components path so webpack can resolve components
     if (fs.existsSync(croComponentsPath)) {
       config.resolve.modules = config.resolve.modules || [];
       config.resolve.modules.push(croComponentsPath);
 
-      // Allow webpack to process cro-components files outside of package root
       config.module.rules.forEach((rule) => {
-        if (rule.test && rule.test.toString().includes('tsx|ts|jsx|js')) {
-          rule.include = Array.isArray(rule.include)
-            ? [...rule.include, croComponentsPath]
-            : [rule.include, croComponentsPath];
+        if (rule.test && rule.test.toString().includes("tsx|ts|jsx|js")) {
+          if (Array.isArray(rule.include)) {
+            rule.include.push(croComponentsPath);
+          } else if (rule.include) {
+            rule.include = [rule.include, croComponentsPath];
+          } else {
+            rule.include = [croComponentsPath];
+          }
         }
       });
     }
     return config;
-  }
+  },
 };
