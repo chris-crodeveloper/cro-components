@@ -18,18 +18,44 @@ function validateProject() {
     process.exit(1);
   }
   
+  // Check if package is installed (either as dependency or via npm link)
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
-  if (!packageJson.dependencies?.["cro-components"] && 
-      !packageJson.devDependencies?.["cro-components"]) {
-    console.error("❌ cro-components not found in dependencies");
-    console.error("   Install it first: npm install cro-components");
+  const hasPackageDependency = packageJson.dependencies?.["cro-components"] || 
+                               packageJson.devDependencies?.["cro-components"];
+  
+  // More robust check for linked package
+  const nodeModulesPath = path.resolve(process.cwd(), "node_modules/cro-components");
+  const hasLinkedPackage = fs.existsSync(nodeModulesPath);
+  
+  // Additional check for package.json in the linked location
+  const hasValidPackage = hasLinkedPackage && fs.existsSync(path.join(nodeModulesPath, "package.json"));
+  
+  // Debug mode - skip validation if --force flag is used
+  const forceMode = process.argv.includes('--force');
+  
+  if (!hasPackageDependency && !hasValidPackage && !forceMode) {
+    console.error("❌ cro-components not found");
+    console.error("   Install it: npm install cro-components");
+    console.error("   Or link it: npm link cro-components");
+    console.error("   Or force run: npx cro-build --force");
+    console.error("");
+    console.error("   Debug info:");
+    console.error(`     Has dependency: ${hasPackageDependency}`);
+    console.error(`     Node modules exists: ${hasLinkedPackage}`);
+    console.error(`     Package.json exists: ${hasValidPackage}`);
+    console.error(`     Checking path: ${nodeModulesPath}`);
     process.exit(1);
   }
   
   if (!fs.existsSync(croComponentsDir)) {
     console.warn("⚠️  No cro-components directory found");
-    console.log("   Create your first component: npx cro-generate MyComponent");
+    console.log("   Run setup first: npx cro-setup");
+    console.log("   Or create your first component: npx cro-generate MyComponent");
     return false;
+  }
+  
+  if (forceMode) {
+    console.log("🔧 Running in force mode - skipping package validation");
   }
   
   return true;
@@ -40,6 +66,33 @@ function createRollupConfig() {
   return `
 import fs from "fs";
 import path from "path";
+
+// Simple minification function
+function simpleMinify(code) {
+  return code
+    // Remove comments
+    .replace(/\\/\\*[\\s\\S]*?\\*\\//g, '')
+    .replace(/\\/\\/.*$/gm, '')
+    // Remove extra whitespace
+    .replace(/\\s+/g, ' ')
+    // Remove whitespace around operators and punctuation
+    .replace(/\\s*([{}();,=+\\-*/<>!&|])\\s*/g, '$1')
+    // Remove leading/trailing whitespace
+    .trim();
+}
+
+// Simple minification plugin
+const minifyPlugin = {
+  name: 'simple-minify',
+  generateBundle(options, bundle) {
+    Object.keys(bundle).forEach(fileName => {
+      const chunk = bundle[fileName];
+      if (chunk.type === 'chunk') {
+        chunk.code = simpleMinify(chunk.code);
+      }
+    });
+  }
+};
 
 // Get all component files from cro-components directory
 function getFiles(dir) {
@@ -77,10 +130,9 @@ export default {
     format: "es",
     entryFileNames: "[name].js"
   },
-  plugins: []
+  plugins: [minifyPlugin]
 };
-`;
-}
+`};
 
 // Generate exports inline
 function generateExports() {
@@ -170,9 +222,16 @@ async function build() {
     const configPath = path.resolve(process.cwd(), ".cro-temp-rollup.config.js");
     fs.writeFileSync(configPath, rollupConfig);
     
-    // Run rollup build
+    // Check if rollup is available
     console.log("📦 Bundling components with Rollup...");
-    const rollupProcess = spawn("npx", ["rollup", "-c", configPath], {
+    
+    // Try to use local rollup first, then npx
+    const rollupCommand = fs.existsSync('./node_modules/.bin/rollup') ? 
+      './node_modules/.bin/rollup' : 'npx';
+    const rollupArgs = rollupCommand === 'npx' ? 
+      ['rollup', '-c', configPath] : ['-c', configPath];
+    
+    const rollupProcess = spawn(rollupCommand, rollupArgs, {
       stdio: "inherit"
     });
     
@@ -194,13 +253,20 @@ async function build() {
       } else {
         cleanup();
         console.error("❌ Rollup build failed");
+        console.error("   Try installing rollup: npm install --save-dev rollup");
         process.exit(1);
       }
     });
     
     rollupProcess.on("error", (error) => {
       cleanup();
-      console.error("❌ Build error:", error);
+      if (error.code === 'ENOENT') {
+        console.error("❌ Rollup not found");
+        console.error("   Install rollup: npm install --save-dev rollup");
+        console.error("   Or install globally: npm install -g rollup");
+      } else {
+        console.error("❌ Build error:", error);
+      }
       process.exit(1);
     });
     
