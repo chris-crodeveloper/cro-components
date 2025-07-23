@@ -38,10 +38,39 @@ function validateProject() {
 // Get the path to the CRO components package
 function getCROPackagePath() {
   try {
-    const packagePath = path.dirname(require.resolve("cro-components/package.json"));
-    return packagePath;
+    // Try multiple resolution methods
+    let packagePath;
+    
+    // Method 1: Direct require.resolve
+    try {
+      packagePath = path.dirname(require.resolve("cro-components/package.json"));
+      return packagePath;
+    } catch (e) {}
+    
+    // Method 2: Check node_modules directly
+    try {
+      packagePath = path.resolve(process.cwd(), "node_modules/cro-components");
+      if (fs.existsSync(path.join(packagePath, "package.json"))) {
+        return packagePath;
+      }
+    } catch (e) {}
+    
+    // Method 3: Check global node_modules (for npm link)
+    try {
+      const { execSync } = require('child_process');
+      const globalPath = execSync('npm root -g', { encoding: 'utf8' }).trim();
+      packagePath = path.join(globalPath, "cro-components");
+      if (fs.existsSync(path.join(packagePath, "package.json"))) {
+        return packagePath;
+      }
+    } catch (e) {}
+    
+    throw new Error("Package not found in any location");
+    
   } catch (error) {
     console.error("❌ Could not find cro-components package");
+    console.error("   Make sure cro-components is installed: npm install cro-components");
+    console.error("   Debug info:", error.message);
     process.exit(1);
   }
 }
