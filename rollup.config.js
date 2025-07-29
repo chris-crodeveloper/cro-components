@@ -61,6 +61,36 @@ export default defineConfig({
   plugins: [
     resolve(),
     commonjs(),
-    terser()
+    terser({
+      // Minimal terser config for web components
+      compress: {
+        // Only do basic compression
+        dead_code: true,
+        drop_debugger: true,
+        drop_console: false, // Keep console for debugging
+        // Don't mess with anything else
+        sequences: false,
+        conditionals: false,
+        booleans: false,
+        loops: false,
+        unused: false,
+        hoist_funs: false,
+        keep_fargs: true,
+        keep_fnames: true
+      },
+      mangle: {
+        // Don't mangle anything
+        reserved: ['className', 'setAttribute', 'getAttribute', 'innerHTML', 'textContent', 'shadowRoot', 'customElements'],
+        properties: false
+      },
+      format: {
+        // Keep readable format
+        beautify: false,
+        comments: false,
+        quote_style: 1,
+        keep_quoted_props: true,
+        semicolons: true
+      }
+    })
   ]
 });
